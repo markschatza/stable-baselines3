@@ -26,6 +26,7 @@ keys/
 /env
 /venv
 /.venv
+/.venv-jax-rocm
 
 
 *.sublime-project

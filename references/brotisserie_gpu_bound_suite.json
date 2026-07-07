@@ -1,0 +1,56 @@
+{
+  "purpose": "24h-class GPU-bound PPO benchmarks for AMD RX 7900 GRE; supersedes CPU-heavy Gym/MuJoCo as primary research signal.",
+  "validated_local_backend": {
+    "venv": ".venv-jax-rocm",
+    "python": "3.12",
+    "jax": "0.10.2",
+    "packages": ["jax-rocm7-pjrt==0.10.2", "jax-rocm7-plugin==0.10.2"],
+    "device_observed": "RocmDevice(id=0)",
+    "backend_observed": "gpu",
+    "smoke_test": "JAX matmul and Craftax-Symbolic-v1 reset/step succeeded on RX 7900 GRE"
+  },
+  "tiers": [
+    {
+      "name": "craftax_gpu_jax_primary",
+      "priority": 1,
+      "why": "JAX-native environment and training path; long-horizon sparse open-world benchmark; verified ROCm GPU step locally.",
+      "repo": "/home/marks/c/git/Craftax_Baselines",
+      "venv": "/home/marks/c/git/stable-baselines3/.venv-jax-rocm",
+      "presets": [
+        {"name": "craftax_1m_debug", "steps": 1000000, "expected_duration": "minutes-to-low-hours", "public_ppo_score": 2.2},
+        {"name": "craftax_100m_probe", "steps": 100000000, "expected_duration": "hours", "purpose": "throughput and stability before 1B"},
+        {"name": "craftax_1b_primary", "steps": 1000000000, "expected_duration": "many-hours-to-24h", "public_ppo_score": 11.9, "public_ppo_rnn_score": 15.3}
+      ],
+      "variants": ["ppo", "ppo_rnn", "ppo_rnd", "ppo_icm", "ppo_e3b"]
+    },
+    {
+      "name": "mujoco_playground_mjx_robotics",
+      "priority": 2,
+      "why": "GPU-accelerated robot learning and sim-to-real tasks via MuJoCo MJX; better hard-robotics match than classic Gym MuJoCo.",
+      "candidate_envs": ["PandaPickCube", "G1JoystickFlatTerrain", "CartpoleBalance"],
+      "risk": "Official docs emphasize CUDA JAX; must verify under JAX ROCm on RX 7900 GRE."
+    },
+    {
+      "name": "brax_mjx_fallback",
+      "priority": 3,
+      "why": "Accelerator-native JAX physics and PPO training; useful fallback if MuJoCo Playground is too CUDA-oriented.",
+      "candidate_envs": ["ant", "humanoid", "walker2d", "locomotion tasks via MJX"]
+    },
+    {
+      "name": "procgen_visual_generalization",
+      "priority": 4,
+      "why": "Hard visual generalization with CNN policy, but environment generation is CPU-side; not primary GPU-sim benchmark.",
+      "candidate_envs": ["coinrun", "heist", "maze", "dodgeball", "bossfight", "bigfish", "starpilot"]
+    },
+    {
+      "name": "genesis_world_exploratory",
+      "priority": 5,
+      "why": "Claims AMD ROCm backend and robotics/multi-physics scope; RL maturity/path needs verification."
+    },
+    {
+      "name": "isaac_lab_deprioritized",
+      "priority": 99,
+      "why": "Hard robot sims, but NVIDIA Isaac Sim/RTX/CUDA stack is not practical for AMD ROCm machine."
+    }
+  ]
+}

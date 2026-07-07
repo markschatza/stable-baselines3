@@ -1,0 +1,16 @@
+diff --git a/ppo.py b/ppo.py
+index ad3708f..b6ceb2a 100644
+--- a/ppo.py
++++ b/ppo.py
+@@ -639,7 +639,10 @@ def run_ppo(config):
+     train_vmap = jax.vmap(train_jit)
+ 
+     t0 = time.time()
+-    out = train_vmap(rngs)
++    if config["NUM_REPEATS"] == 1:
++        out = train_jit(rngs[0])
++    else:
++        out = train_vmap(rngs)
+     t1 = time.time()
+     print("Time to run experiment", t1 - t0)
+     print("SPS: ", config["TOTAL_TIMESTEPS"] / (t1 - t0))

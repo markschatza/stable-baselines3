@@ -10,7 +10,10 @@ uv venv --python python3.11 .venv
 . .venv/bin/activate
 uv pip install --index-url https://download.pytorch.org/whl/rocm6.4 'torch==2.9.1'
 uv pip install -e '.[extra,tests]'
+uv pip install 'gymnasium[mujoco,box2d,atari,accept-rom-license]' minigrid
 ```
+
+Note: Gymnasium 1.3.0 currently warns that `accept-rom-license` is not an exposed extra, but `ale-py` is installed and usable after explicit registration.
 
 Verified hardware/software:
 

@@ -1,0 +1,51 @@
+{
+  "purpose": "Hour-scale PPO baselines where improved defaults have room to matter.",
+  "tiers": [
+    {
+      "name": "box2d_control_hours",
+      "description": "Cheap enough to iterate, but hard enough that PPO defaults/tuned configs separate clearly.",
+      "device": "cpu",
+      "policy": "MlpPolicy",
+      "envs": [
+        {"id": "BipedalWalker-v3", "timesteps": 5000000, "public_rl_zoo_target_mean": 287.939},
+        {"id": "LunarLander-v3", "timesteps": 1000000, "public_rl_zoo_target_note": "RL Zoo current tuned config is v3; older public benchmark table has LunarLander-v2 mean 242.119."}
+      ]
+    },
+    {
+      "name": "mujoco_locomotion_hours",
+      "description": "Continuous-control suite with long-horizon locomotion and meaningful PPO stability/sample-efficiency differences.",
+      "device": "cpu",
+      "policy": "MlpPolicy",
+      "envs": [
+        {"id": "HalfCheetah-v5", "timesteps": 1000000, "proxy_rl_zoo_config": "HalfCheetah-v4", "public_v3_target_mean": 5819.099},
+        {"id": "Hopper-v5", "timesteps": 1000000, "proxy_rl_zoo_config": "Hopper-v4", "public_v3_target_mean": 2410.435},
+        {"id": "Walker2d-v5", "timesteps": 1000000, "proxy_rl_zoo_config": "Walker2d-v4", "public_v3_target_mean": 3478.798},
+        {"id": "Ant-v5", "timesteps": 1000000, "proxy_rl_zoo_config": "Ant-v4", "public_v3_target_mean": 1327.158},
+        {"id": "Humanoid-v5", "timesteps": 10000000, "proxy_rl_zoo_config": "Humanoid-v4", "note": "Heaviest single-agent continuous-control candidate."}
+      ]
+    },
+    {
+      "name": "visual_gpu_hours",
+      "description": "CNN-policy suite where the RX 7900 GRE should matter more than on MLP locomotion tasks.",
+      "device": "cuda",
+      "policy": "CnnPolicy",
+      "envs": [
+        {"id": "CarRacing-v3", "timesteps": 4000000, "public_rl_zoo_config": "CarRacing-v3"},
+        {"id": "PongNoFrameskip-v4", "timesteps": 10000000, "public_rl_zoo_target_mean": 20.989},
+        {"id": "BreakoutNoFrameskip-v4", "timesteps": 10000000, "public_rl_zoo_target_mean": 398.033},
+        {"id": "SeaquestNoFrameskip-v4", "timesteps": 10000000, "public_rl_zoo_target_mean": 1783.636}
+      ]
+    },
+    {
+      "name": "sparse_exploration_hours",
+      "description": "Sparse/partial-observation MiniGrid tasks; useful for seeing when PPO defaults fail rather than merely train slowly.",
+      "device": "cpu",
+      "policy": "MlpPolicy",
+      "envs": [
+        {"id": "MiniGrid-FourRooms-v0", "timesteps": 5000000, "public_rl_zoo_target_mean": 0.573},
+        {"id": "MiniGrid-LockedRoom-v0", "timesteps": 10000000, "public_rl_zoo_target_mean": 0.0, "note": "RL Zoo marks this as unsolved; good failure-mode test."},
+        {"id": "MiniGrid-ObstructedMaze-2Dlh-v0", "timesteps": 10000000, "public_rl_zoo_target_mean": 0.0, "note": "RL Zoo marks this as unsolved; good failure-mode test."}
+      ]
+    }
+  ]
+}

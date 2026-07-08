@@ -94,22 +94,27 @@ Best logged achievement metric:
 
 ## Public target comparison
 
+Craftax README says scoreboard values are **reward as a percent of the maximum reward (226)**.
+
 Craftax README public reference for Craftax-1B blank PPO:
 
 ```text
-PPO score: 11.9
+PPO score: 11.9% of max reward
+raw reward equivalent: 26.894
 ```
 
 Our run:
 
 ```text
-final achievements: 22.60
-best achievements: 24.375
-final episode_return: 22.98
-best episode_return: 25.35
+final achievements metric: 22.60
+best achievements metric: 24.375
+final episode_return: 22.98 -> 10.17% of 226
+best episode_return: 25.35 -> 11.22% of 226
 ```
 
-Interpretation: this run appears to exceed the public blank PPO score substantially, but we should verify exact score semantics/version differences before claiming a strict apples-to-apples benchmark win. The run used Craftax `1.6.1` and a local ROCm stability patch to avoid `vmap` when `NUM_REPEATS == 1`.
+Interpretation: the earlier comparison was apples-to-oranges. The `achievements` metric is a sum/count-like achievement statistic from `logz.create_log_dict`, while the public scoreboard is reward as `% max`. Compared correctly using `episode_return / 226 * 100`, this single seed was close to but below the public blank PPO score: final `10.17%` vs public `11.9%`, best logged point `11.22%` vs public `11.9%`.
+
+The run used Craftax `1.6.1` and a local ROCm stability patch to avoid `vmap` when `NUM_REPEATS == 1`.
 
 ## Final nonzero achievements
 

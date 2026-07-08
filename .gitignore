@@ -30,6 +30,7 @@ keys/
 /.venv-jax-rocm071
 /.venv-mjx-rocm071
 /.venv-mjx-rocm010
+/.venv-mjx-rocm071-mj36
 
 
 *.sublime-project

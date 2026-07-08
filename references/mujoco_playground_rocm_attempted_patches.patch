@@ -1,0 +1,17 @@
+diff --git a/learning/train_jax_ppo.py b/learning/train_jax_ppo.py
+index b574f89..17e07af 100644
+--- a/learning/train_jax_ppo.py
++++ b/learning/train_jax_ppo.py
+@@ -51,7 +51,11 @@ except ImportError:
+ 
+ 
+ xla_flags = os.environ.get("XLA_FLAGS", "")
+-xla_flags += " --xla_gpu_triton_gemm_any=True"
++# Brotisserie/ROCm: the CUDA-oriented Triton GEMM flag has caused ROCm JAX
++# training instability/segfaults on RX 7900 GRE. Leave it opt-in for local
++# ROCm runs instead of forcing it on unconditionally.
++if os.environ.get("BROTISSERIE_ENABLE_TRITON_GEMM", "0") == "1":
++  xla_flags += " --xla_gpu_triton_gemm_any=True"
+ os.environ["XLA_FLAGS"] = xla_flags
+ os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
+ os.environ["MUJOCO_GL"] = "egl"

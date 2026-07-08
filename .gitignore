@@ -33,6 +33,7 @@ keys/
 /.venv-mjx-rocm071-mj36
 /reports/brotisserie_mujoco_24h/
 /reports/brotisserie_mujoco_smoke/
+/reports/brotisserie_mjx_smoke/
 
 
 *.sublime-project

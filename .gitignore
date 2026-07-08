@@ -34,6 +34,7 @@ keys/
 /reports/brotisserie_mujoco_24h/
 /reports/brotisserie_mujoco_smoke/
 /reports/brotisserie_mjx_smoke/
+/reports/brotisserie_mjx_1b/
 
 
 *.sublime-project
